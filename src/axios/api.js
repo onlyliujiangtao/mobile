@@ -10,9 +10,11 @@ const doPost = (url, params) => {
   return new Promise((resolve, reject) => {
     store.commit('SET_PAGE_LOADING', { isLoading: true, text: '加载中' })
     let formData = new FormData()
-    Object.keys(params).forEach(item => {
-      formData.append(item, params[item])
-    })
+    if (params) {
+      Object.keys(params).forEach(item => {
+        formData.append(item, params[item])
+      })
+    }
     axios.post(url, formData)
       .then(response => {
         resolve(response.data)
@@ -41,6 +43,8 @@ const doPost = (url, params) => {
 
 // 登录
 export const login = params => doPost('/zjjh/uaas/login/mobil/login', params)
+// export const login = params => doPost('/posp_etcsx/uaas/login/mobileLogin', params)
 export const todayMerchAmountAndSum = params => doPost('/zjjh/epay/merchant/todayMerchAmountAndSum', params)
 export const getMerchantGrid = params => doPost('/zjjh/epay/merchant/getMerchantGrid', params)
 export const todayPipeSumByMerchantId = params => doPost('/zjjh/epay/tranline/todayPipeSumByMerchantId', params)
+export const getTranlineGrid = params => doPost('/zjjh/epay/tranline/getTranlineGrid', params)

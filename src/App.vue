@@ -173,4 +173,7 @@ body {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
 }
+.weui-tab__panel{
+  padding-bottom: 0 !important;
+}
 </style>

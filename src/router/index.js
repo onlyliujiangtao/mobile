@@ -7,6 +7,8 @@ const login = () => import('@/view/login').then(m => m.default)
 const main = () => import('@/view/main').then(m => m.default)
 const LeaderboardMmerchants = () => import('@/view/Leaderboard/merchants').then(m => m.default)
 const LeaderboardStore = () => import('@/view/Leaderboard/store').then(m => m.default)
+const InquireWater = () => import('@/view/Inquire/water').then(m => m.default)
+
 Vue.use(Router)
 
 const router = new Router({
@@ -31,6 +33,11 @@ const router = new Router({
       path: '/store',
       name: '门店排行榜',
       component: LeaderboardStore
+    },
+    {
+      path: '/water',
+      name: '流水查询',
+      component: InquireWater
     }
   ]
 })
