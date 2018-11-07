@@ -3,11 +3,11 @@
     <div v-transfer-dom>
       <loading v-model="isLoading" :text="loadingText"></loading>
     </div>
-    <view-box ref="viewBox" v-if="isHeader"  body-padding-top="46px">
+    <view-box ref="viewBox" v-if="isHeader" body-padding-top="46px">
       <x-header slot="header" class="app-header" :left-options="leftOptions" :right-options="rightOptions" :title="title" @on-click-more="onClickMore" :transition="headerTransition">
           <a slot="right" v-show="rightOptions.showAdd" @click="onClickMore" v-text="moreText"></a>
       </x-header>
-      <transition :name="'three-pop-' + (direction === 'forward' ? 'in' : 'out')" v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter">
+      <transition :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')" v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter">
         <router-view class="router-view"></router-view>
       </transition>
     </view-box>
@@ -101,7 +101,7 @@ body {
 
 .router-view {
   width: 100%;
-  top: 46px;
+  // top: 46px;
 }
 
 .router-view-three {

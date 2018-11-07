@@ -117,7 +117,6 @@ export default {
   .header{
     box-shadow: 1px 0px 1px gray;
     position: fixed;
-    top: 46px;
     background-color: #fff;
     z-index: 2;
   }

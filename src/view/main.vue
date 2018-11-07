@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div>
     <group-title name="">排行榜</group-title>
     <grid>
       <grid-item link="/merchants" label="商户排行榜">
