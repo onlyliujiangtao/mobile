@@ -11,6 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/posp_etcsx': {
+        target: 'http://172.16.45.205:8080/posp_etcsx',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/posp_etcsx': '/'
+        }
+      },
       '/zjjh': {
         target: 'http://116.62.64.126:8000/zjjh',
         changeOrigin: true,

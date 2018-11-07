@@ -34,8 +34,8 @@ export default {
   methods: {
     async login () {
       let params = {
-        loginCode: this.accont || this.$refs.accont,
-        password: this.password || this.$refs.password
+        loginCode: this.accont || this.$refs.accont.value,
+        password: this.password || this.$refs.password.value
       }
       let res = await request.login(params)
       if (res.status) {
@@ -63,6 +63,6 @@ export default {
 }
 .btn{
   width: 80%;
-  margin: 20% auto;
+  margin: 40px auto;
 }
 </style>

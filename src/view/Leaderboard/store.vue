@@ -44,7 +44,7 @@
       }
     },
     mounted () {
-      this.initData(),
+      this.initData()
       this.initList()
     },
     methods: {
@@ -54,7 +54,7 @@
           rows: 20
         }
         let res = await request.getMerchantGrid(params)
-        this.items = res.rows 
+        this.items = res.rows
       },
       async initList () {
         const params = {
