@@ -1,28 +1,25 @@
 <template>
-  <div>
+  <div class="wrap">
       <div class='header'>
         <button-tab>
           <button-tab-item @on-item-click="consoleIndex('money')" selected>交易金额</button-tab-item>
           <button-tab-item @on-item-click="consoleIndex('numberpen')">交易笔数</button-tab-item>
         </button-tab>
       </div>
-      <div class="wrap">
-        <div class="tbl-left">
-          <ul>
-            <li class="active">全部</li>
-            <li v-for="(item,index) in items" :key="index">{{item.deptname}}</li>
-          </ul>
-        </div>
-        <div class="tbl-right">
-          <group class="list">
-            <cell v-for="(todo,index) in todos" :key="index" :title="todo.termName" :value="todo.money">
-              <img slot="icon" width="20" v-if="index<3" style="display:block;margin-right:5px;" :src="'../../../static/images/'+(index+1)+'.png'">
-              <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
-            </cell>
-          </group>
-        </div>
+      <div class="tbl-left">
+        <ul>
+          <li class="active" @click.native="merchat">全部</li>
+          <li v-for="(item,index) in items" :key="index" @click="merchat(item.merch_id)">{{item.deptname}} </li>
+        </ul>
       </div>
-      
+      <div class="tbl-right">
+        <group class="list">
+          <cell v-for="(todo,index) in todos" :key="index" :title="todo.termName" :value="type=='money'?Number(todo[type]/100).toFixed(2):todo[type]">
+            <img slot="icon" width="20" v-if="index<3" style="display:block;margin-right:5px;" :src="'../../../static/images/'+(index+1)+'.png'">
+            <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
+          </cell>
+        </group>
+      </div>    
   </div>
 </template>
 
@@ -40,7 +37,8 @@
       return {
         items: [],
         todos: [],
-        type: 'money'
+        type: 'money',
+        merchantid: ''
       }
     },
     mounted () {
@@ -58,7 +56,7 @@
       },
       async initList () {
         const params = {
-          merchantid: '',
+          merchantid: this.merchantid,
           orderTab: this.type
         }
         let res = await request.todayPipeSumByMerchantId(params)
@@ -66,6 +64,10 @@
       },
       async consoleIndex (type) {
         this.type = type
+        this.initList()
+      },
+      merchat(id){
+        this.merchantid = id
         this.initList()
       }
     }
@@ -91,12 +93,15 @@
 .wrap{
   overflow: hidden;
   height: 100%;
-  margin-top: 45px;
 }
 .tbl-left{
   width:100px;
+  height: 100%;
   float: left;
   background-color: #0082bc;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 46px;
 }
 .tbl-left li{
   padding: 10px 0;
@@ -110,7 +115,15 @@
     color: #000 !important;
 }
 .tbl-right{
+  width: calc(100vw - 100px);
+  height: 100%;
   float: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 46px;
+}
+.list{
+  margin-top: -20px;
 }
 
 </style>
