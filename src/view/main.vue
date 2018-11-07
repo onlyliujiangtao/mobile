@@ -1,17 +1,17 @@
 <template>
   <div class="main">
-    <group-title name="">排行榜</group-title>
+    <group-title class='title' name="">排行榜</group-title>
     <grid>
-      <grid-item link="/merchants" label="商户排行榜">
+      <grid-item link="/merchants" label="服务区排行榜">
         <img slot="icon" src="../assets/logo.png">
       </grid-item>
       <grid-item link="/store" label="门店排行榜">
         <img slot="icon" src="../assets/logo.png">
       </grid-item>
     </grid>
-    <group-title name="">统计查询</group-title>
+    <group-title class='title' name="">统计查询</group-title>
     <grid>
-      <grid-item label="商户排行榜">
+      <grid-item label="流水查询">
         <img slot="icon" src="../assets/logo.png">
       </grid-item>
       <grid-item label="门店排行榜">
@@ -43,5 +43,11 @@
 </script>
 
 <style scoped>
+.title{
+  text-align: center;
+  height: 44px;
+  line-height: 44px;
+  font-size: 16px;
+}
 
 </style>

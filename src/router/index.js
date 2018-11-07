@@ -7,7 +7,6 @@ const login = () => import('@/view/login').then(m => m.default)
 const main = () => import('@/view/main').then(m => m.default)
 const LeaderboardMmerchants = () => import('@/view/Leaderboard/merchants').then(m => m.default)
 const LeaderboardStore = () => import('@/view/Leaderboard/store').then(m => m.default)
-
 Vue.use(Router)
 
 const router = new Router({
