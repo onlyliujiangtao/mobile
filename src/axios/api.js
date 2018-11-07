@@ -42,9 +42,11 @@ const doPost = (url, params) => {
 }
 
 // 登录
-export const login = params => doPost('/zjjh/uaas/login/mobil/login', params)
-// export const login = params => doPost('/posp_etcsx/uaas/login/mobileLogin', params)
-export const todayMerchAmountAndSum = params => doPost('/zjjh/epay/merchant/todayMerchAmountAndSum', params)
+// export const login = params => doPost('/zjjh/uaas/login/mobil/login', params)
+export const login = params => doPost('/posp_etcsx/uaas/login/mobileLogin', params)
+// export const todayMerchAmountAndSum = params => doPost('/zjjh/epay/merchant/todayMerchAmountAndSum', params)
+export const todayMerchAmountAndSum = params => doPost('/posp_etcsx/epay/tranline/getTranlineFlowByMobile', params)
+
 export const getMerchantGrid = params => doPost('/zjjh/epay/merchant/getMerchantGrid', params)
 export const todayPipeSumByMerchantId = params => doPost('/zjjh/epay/tranline/todayPipeSumByMerchantId', params)
 export const getTranlineGrid = params => doPost('/zjjh/epay/tranline/getTranlineGrid', params)
