@@ -8,7 +8,7 @@
       </div>
       <scroller lock-x @on-scroll-bottom="onScrollBottom" :scroll-bottom-offset="10" ref="scrollerBottom" class="list">
         <div>
-          <cell v-for="(item,index) in items" :key="index" :title="item.merch_name" :value="type=='money'?Number(item[type]/100).toFixed(2):item[type]">
+          <cell class="striped" v-for="(item,index) in items" :key="index" :title="item.merch_name" :value="type=='money'?Number(item[type]/100).toFixed(2):item[type]">
             <img slot="icon" width="20" v-if="index<3" style="display:block;margin-right:5px;" :src="'../../../static/images/'+(index+1)+'.png'">
             <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
           </cell>
@@ -65,7 +65,6 @@
         this.$nextTick(() => {
           this.$refs.scrollerBottom.reset()
         })
-        
         if (res.rows.length === 0 || res.rows.length < 20) {
           this.isBottom = true
         } else {
@@ -98,5 +97,7 @@
   display: inline-block;
   min-width: 30px;
 }
-
+ .striped:nth-of-type(2n-1){
+    background-color: #f0f0f0;
+  }
 </style>

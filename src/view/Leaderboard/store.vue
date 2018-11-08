@@ -2,43 +2,55 @@
   <div class="wrap">
       <div class='header'>
         <button-tab>
-          <button-tab-item @on-item-click="consoleIndex('money')" selected>交易金额</button-tab-item>
-          <button-tab-item @on-item-click="consoleIndex('numberpen')">交易笔数</button-tab-item>
+          <button-tab-item @on-item-click="consoleIndex('totalrealmoney')" selected>交易金额</button-tab-item>
+          <button-tab-item @on-item-click="consoleIndex('totalrealcount')">交易笔数</button-tab-item>
         </button-tab>
       </div>
-      <div class="tbl-left">
-        <ul>
-          <li class="active" @click.native="merchat">全部</li>
-          <li v-for="(item,index) in items" :key="index" @click="merchat(item.merch_id)">{{item.deptname}} </li>
+      <scroller lock-x @on-scroll-bottom="leftBottom" ref="leftBottom" :scroll-bottom-offst="0" class="tbl-left">
+        <ul ref="itemli">
+          <li class="active" @click="merchat($event,'')">全部</li>
+          <li v-for="(item,index) in items" :key="index" @click="merchat($event,item.merch_id)">{{item.merch_name}} </li>
+          <load-more tip="loading" v-if="!isLeftBottom"></load-more>
         </ul>
-      </div>
-      <div class="tbl-right">
+      </scroller>
+      <scroller lock-x @on-scroll-bottom="rightBottom" ref="rightBottom" :scroll-bottom-offst="0" class="tbl-right">
         <group class="list">
-          <cell v-for="(todo,index) in todos" :key="index" :title="todo.termName" :value="type=='money'?Number(todo[type]/100).toFixed(2):todo[type]">
+          <cell class="striped" v-for="(todo,index) in todos" :key="index" :title="todo.term_id" :value="type=='money'?Number(todo[type]/100).toFixed(2):todo[type]/1">
             <img slot="icon" width="20" v-if="index<3" style="display:block;margin-right:5px;" :src="'../../../static/images/'+(index+1)+'.png'">
             <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
           </cell>
+          <load-more tip="loading" v-if="!isRightBottom"></load-more>
+          <divider v-if="isRightBottom">我也是有底线的</divider>
         </group>
-      </div>    
+      </scroller>    
   </div>
 </template>
 
 <script>
-  import { ButtonTab, ButtonTabItem, Group, Cell } from 'vux'
+  import { ButtonTab, ButtonTabItem, Group, Cell, Scroller, LoadMore, Divider } from 'vux'
   import * as request from '@/axios/api'
   export default {
     components: {
       ButtonTab,
       ButtonTabItem,
       Cell,
-      Group
+      Group,
+      Scroller,
+      LoadMore,
+      Divider
     },
     data () {
       return {
         items: [],
         todos: [],
-        type: 'money',
-        merchantid: ''
+        type: 'totalrealmoney',
+        merchantid: '',
+        leftPage: 1,
+        leftLoading: true,
+        isLeftBottom: false,
+        rightPage: 1,
+        rightLoading: true,
+        isRightBottom: false
       }
     },
     mounted () {
@@ -46,27 +58,67 @@
       this.initList()
     },
     methods: {
+      leftBottom () {
+        if (this.leftLoading) {
+          this.leftPage++
+          this.initData()
+        }
+      },
+      rightBottom () {
+        if (this.rightLoading) {
+          this.rightPage++
+          this.initList()
+        }
+      },
       async initData () {
         const params = {
-          page: 1,
+          page: this.leftPage,
           rows: 20
         }
+        this.leftPage === 1 && (this.items = [])
         let res = await request.getMerchantGrid(params)
-        this.items = res.rows
+        res.rows.forEach(item => {
+          this.items.push(item)
+        })
+        this.$nextTick(() => {
+          this.$refs.leftBottom.reset()
+        })
+        if (res.rows.length === 0 || res.rows.length < 20) {
+          this.isLeftBottom = true
+          this.leftLoading = false
+        } else {
+          this.leftLoading = true
+        }
       },
       async initList () {
         const params = {
-          merchantid: this.merchantid,
-          orderTab: this.type
+          merchid: this.merchantid,
+          type: this.type,
+          rows: 20,
+          page: this.rightPage
         }
+        this.rightPage === 1 && (this.todos = [])
         let res = await request.todayPipeSumByMerchantId(params)
-        this.todos = res.rows
+        res.rows.forEach(item => {
+          this.todos.push(item)
+        })
+        this.$nextTick(() => {
+          this.$refs.rightBottom.reset()
+        })
+        if (res.rows.length === 0 || res.rows.length < 20) {
+          this.isRightBottom = true
+          this.rightLoading = false
+        } else {
+          this.rightLoading = true
+        }
       },
       async consoleIndex (type) {
         this.type = type
         this.initList()
       },
-      merchat(id){
+      merchat (e, id) {
+        document.querySelector('.active').setAttribute('class', '')
+        e.target.setAttribute('class', 'active')
         this.merchantid = id
         this.initList()
       }
@@ -78,8 +130,6 @@
 .header{
   width: 100%;
   position: fixed;
-  top:46px;
-  left:0;
   height: 44px;
   background-color:#0089bc;
   padding:6px 10% 0 10%;
@@ -96,12 +146,14 @@
 }
 .tbl-left{
   width:100px;
-  height: 100%;
+  height: calc(100vh - 46px - 44px);
   float: left;
   background-color: #0082bc;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-top: 46px;
+  margin-top: 44px;
+  box-sizing: border-box;
+  padding-bottom: 25px;
 }
 .tbl-left li{
   padding: 10px 0;
@@ -120,10 +172,12 @@
   float: left;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-top: 46px;
+  margin-top: 44px;
 }
 .list{
   margin-top: -20px;
 }
-
+ .striped:nth-of-type(2n-1){
+    background-color: #f0f0f0;
+  }
 </style>
