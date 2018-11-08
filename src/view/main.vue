@@ -3,16 +3,16 @@
     <group-title name="">排行榜</group-title>
     <grid>
       <grid-item link="/merchants" label="商户排行榜">
-        <img slot="icon" src="../assets/logo.png">
+        <img slot="icon" src="../assets/merchant.png">
       </grid-item>
-      <grid-item link="/store" label="门店排行榜">
-        <img slot="icon" src="../assets/logo.png">
+      <grid-item link="/store" label="终端排行榜">
+        <img slot="icon" src="../assets/store.png">
       </grid-item>
     </grid>
     <group-title name="">统计查询</group-title>
     <grid>
       <grid-item link="/water" label="今日流水">
-        <img slot="icon" src="../assets/logo.png">
+        <img slot="icon" src="../assets/water.png">
       </grid-item>
     </grid>
   </div>

@@ -31,7 +31,7 @@ const router = new Router({
     },
     {
       path: '/store',
-      name: '门店排行榜',
+      name: '终端排行榜',
       component: LeaderboardStore
     },
     {
