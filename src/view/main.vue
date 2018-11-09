@@ -20,6 +20,7 @@
 
 <script>
   import { Grid, GridItem, GroupTitle } from 'vux'
+  import * as request from '@/axios/api'
   export default {
     components: {
       Grid, GridItem, GroupTitle
@@ -28,9 +29,13 @@
       this.$root.eventHub.$off('page.more')
       this.$root.eventHub.$on('page.more', this.loginOut)
     },
+    mounted () {
+      request.todayPipeSumByMerchantId()
+    },
     methods: {
       loginOut () {
-        this.$router.replace('/')
+        document.cookie = ''
+        this.$router.replace('/login')
       }
     }
   }

@@ -20,7 +20,7 @@
             <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
           </cell>
           <load-more tip="loading" v-if="!isRightBottom"></load-more>
-          <divider v-if="isRightBottom">我也是有底线的</divider>
+          <divider v-if="isRightBottom" style="padding:50px;">{{bottomText}}</divider>
         </group>
       </scroller>    
   </div>
@@ -50,7 +50,8 @@
         isLeftBottom: false,
         rightPage: 1,
         rightLoading: true,
-        isRightBottom: false
+        isRightBottom: false,
+        bottomText: ''
       }
     },
     mounted () {
@@ -108,6 +109,11 @@
         if (res.rows.length === 0 || res.rows.length < 20) {
           this.isRightBottom = true
           this.rightLoading = false
+          if (res.total) {
+            this.bottomText = '我也是有底线的'
+          } else {
+            this.bottomText = '暂无数据'
+          }
         } else {
           this.rightLoading = true
         }

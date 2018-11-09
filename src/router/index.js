@@ -14,12 +14,12 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: '登录',
       component: login
     },
     {
-      path: '/main',
+      path: '/',
       name: '首页',
       component: main,
       meta: { headerLeftText: '注销' }

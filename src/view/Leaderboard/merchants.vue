@@ -13,7 +13,7 @@
             <span slot="icon" v-if="index>2" class="order">{{index + 1}}</span>
           </cell>
           <load-more v-if="!isBottom" tip="正在加载"></load-more>
-          <divider v-if="isBottom">我也是有底线的</divider>
+          <divider v-if="isBottom" style="padding:50px;">{{bottomText}}</divider>
         </div>
       </scroller>
   </div>
@@ -37,7 +37,8 @@
         type: 'totalrealmoney',
         loading: false,
         page: 1,
-        isBottom: false
+        isBottom: false,
+        bottomText: ''
       }
     },
     mounted () {
@@ -47,7 +48,6 @@
       onScrollBottom () {
         if (this.loading) {
           this.page++
-          this.loading = false
           this.initData()
         }
       },
@@ -67,6 +67,12 @@
         })
         if (res.rows.length === 0 || res.rows.length < 20) {
           this.isBottom = true
+          this.loading = false
+          if (res.total) {
+            this.bottomText = '我也是有底线的'
+          } else {
+            this.bottomText = '暂无数据'
+          }
         } else {
           this.loading = true
         }

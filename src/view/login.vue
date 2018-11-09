@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="logo">
-      <img src="../assets/logo.png" width="150">
+      <img src="../assets/logo.png" width="250">
     </div>
     <div class="form">
       <group>
@@ -39,7 +39,7 @@ export default {
       }
       let res = await request.login(params)
       if (res.status) {
-        this.$router.push('/main')
+        this.$router.push('/')
       } else {
         this.$toast(res.msg, 'warn')
       }
@@ -64,5 +64,8 @@ export default {
 .btn{
   width: 80%;
   margin: 40px auto;
+}
+.weui-btn_primary{
+  background: #0082bc;
 }
 </style>

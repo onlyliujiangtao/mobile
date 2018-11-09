@@ -42,14 +42,14 @@ export default {
     },
     leftOptions () {
       return {
-        showBack: this.$route.path !== '/main'
+        showBack: this.$route.path !== '/'
       }
     },
     rightOptions () {
       return {
         showMore: false,
         showAdd:
-          this.$route.path === '/main'
+          this.$route.path === '/'
       }
     },
     headerTransition () {
@@ -58,7 +58,7 @@ export default {
         : 'vux-header-fade-in-left'
     },
     isHeader () {
-      return this.$route.path !== '/'
+      return this.$route.path !== '/login'
     }
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
 @import "~vux/src/styles/reset.less";
 
 body {
-  background-color: #fbf9fe;
+  background-color: #fff;
 }
 #app{
   width: 100%;
@@ -97,6 +97,7 @@ body {
   left: 0;
   top: 0;
   z-index: 100;
+  background-color: #0082bc !important;
 }
 
 .router-view {
